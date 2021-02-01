@@ -16,6 +16,12 @@ import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'
 import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css'
 
 import customPalette from './palette'
+//配置工具栏
+import paletteEntries from './palette/config/paletteEntries'
+//画布渲染
+import customRenderer from './renderer'
+//绘制自定义元素
+import customContextPad from './contextPad'
 export default {
   name: 'HelloWorld',
   data () {
@@ -28,10 +34,15 @@ export default {
         // 获取到属性ref为“canvas”的dom节点
         const canvas = this.$refs.canvas
         const panelContainer = this.$refs.panel
+        //去掉默认工具栏
+        const modules = BpmnModeler.prototype._modules
+        const index = modules.findIndex(it=>it.paletteProvider)
+        modules.splice(index,1)
         //建模
         this.bpmnModeler = new BpmnModeler({
           container: canvas,
-          additionalModules: [customPalette]
+          paletteEntries,
+          additionalModules: [customPalette,customRenderer,customContextPad]
         });
         this.createNewDiagram()
   },

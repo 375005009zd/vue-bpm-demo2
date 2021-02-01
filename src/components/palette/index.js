@@ -1,5 +1,4 @@
 import customPalette from './CustomPalette'
-import PaletteProvider from './CustomPaletteProvider'
 import CustomPaletteProvider from './CustomPaletteProvider'
 
 export default {

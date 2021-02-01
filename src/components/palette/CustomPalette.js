@@ -290,6 +290,11 @@ Palette.prototype.trigger = function(action, event, autoActivate) {
       handler,
       originalEvent,
       button = event.delegateTarget || event.target;
+    //----自定义区域----
+  //创建元素的方法需要这两个构造器
+  var elementFactory = this._elementFactory,
+    create = this._create
+  //----自定义区域-----
 
   if (!button) {
     return event.preventDefault();
@@ -301,12 +306,6 @@ Palette.prototype.trigger = function(action, event, autoActivate) {
   if (!entry) {
     return;
   }
-  
-  //----自定义区域----
-  //创建元素的方法需要这两个构造器
-  var elementFactory = this._elementFactory,
-    create = this._create
-  //----自定义区域-----
 
   handler = entry.action;
 
