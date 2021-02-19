@@ -1,4 +1,6 @@
 import { is } from 'bpmn-js/lib/util/ModelUtil'
+import { customShapeAction,customConfig, batchCreateCustom ,hasLabelElements} from '@/components/utils/util'
+
 import {
   assign
 } from 'min-dash'
@@ -10,26 +12,17 @@ import {
 } from 'tiny-svg'
 
 const TASK_BORDER_RADIUS = 2
-export default {
-   'create.start-event': createAction(
-       'bpmn:StartEvent',
-       'event',
-       'bpmn-icon-custom',
-       'Create StartEvent',
-       require('./img/task.png'),
-       drawShape
-   ),
-   'create.task': createAction(
-       'bpmn:Task',
-       'activity',
-       'bpmn-icon-custom',
-       'Create Task',
-       require('./img/task2.png'),
-       drawShape
-   )
+
+//根据util.js的自定义元素创建图形对象
+function createElement() {
+   return batchCreateCustom(customShapeAction,createAction)
 }
 
-function createAction(type, group, className, title, imageUrl,drawShape,options) {
+//导出自定义元素图形
+export default createElement()
+
+//在画布绘制元素图形
+function createAction(type, group, className, title, imageUrl,drawShapeFn,options) {
 
     function createListener(event, autoActivate, elementFactory, create) {
         var shape = elementFactory.createShape({ type: type });
@@ -41,7 +34,6 @@ function createAction(type, group, className, title, imageUrl,drawShape,options)
         create.start(event, shape);
         }
 
-        //var shortType = type.replace(/^bpmn:/, '');
         const config = {
             type,//渲染时判断
             group: group,
@@ -52,12 +44,12 @@ function createAction(type, group, className, title, imageUrl,drawShape,options)
                 click: createListener
             }
         }
-        
+
         if(imageUrl) {
            assign(config, {imageUrl})
         }
 
-        if(drawShape) {
+        if(drawShapeFn == 'drawShape') {
            assign(config, {drawShape})
         }
 
@@ -79,45 +71,25 @@ function drawShape(parentNode, element ,bpmnRenderer,imageUrl) {
           color = 'red'
         }
       }
-
-    if (is(element, 'bpmn:Task') || is(element, 'bpmn:StartEvent')) {
-      const height = 80
-      const width = 100
+	    const { type } = element
+	    const { attr } = customConfig[type]
+      const height = attr.height || 100
+      const width = attr.width || 100
       element.width = width
       element.height = height
       const rect = drawRect(parentNode, width, height, TASK_BORDER_RADIUS, color,imageUrl);
- 
+
       prependTo(rect, parentNode);
 
       svgRemove(shape);
 
       return shape;
-    }
-
-    const rect = drawRect(parentNode, 30, 20, TASK_BORDER_RADIUS, color);
-
-    svgAttr(rect, {
-      transform: 'translate(-20, -10)'
-    });
-
-    return shape;
   }
 
-  
+
 // copied from https://github.com/bpmn-io/bpmn-js/blob/master/lib/draw/BpmnRenderer.js
 function drawRect(parentNode, width, height, borderRadius, strokeColor,imageUrl) {
- // const rect = svgCreate('rect');
-
-  // svgAttr(rect, {
-  //   width: width,
-  //   height: height,
-  //   rx: borderRadius,
-  //   ry: borderRadius,
-  //   stroke: strokeColor || '#000',
-  //   strokeWidth: 2,
-  //   fill: '#fff'
-  // });
-  var rect = svgCreate('image',{
+  var customIcon = svgCreate('image',{
     x: 0,
     y: 0,
     width: width,
@@ -125,9 +97,9 @@ function drawRect(parentNode, width, height, borderRadius, strokeColor,imageUrl)
     href: imageUrl
 })
 
-  svgAppend(parentNode, rect);
+  svgAppend(parentNode, customIcon);
 
-  return rect;
+  return customIcon;
 }
 
 // copied from https://github.com/bpmn-io/diagram-js/blob/master/lib/core/GraphicsFactory.js

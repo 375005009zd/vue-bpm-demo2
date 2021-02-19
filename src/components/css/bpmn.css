@@ -7,3 +7,8 @@ color: yellow;
 .bpmn-icon-task.green {
 color: green;
 }
+
+.djs-palette .entry img {
+  width:30px;
+  max-width: 100%;
+}
