@@ -28,7 +28,7 @@ import customContextPad from './contextPad'
 // // 原有的 properties-panel 这个框
 import propertiesPanelModule from 'bpmn-js-properties-panel'
 
-import PropertiesView from './custom-properties-panel/PropertiesView'
+import PropertiesView from './propertiesPanel/PropertiesView'
 
 export default {
   name: 'HelloWorld',

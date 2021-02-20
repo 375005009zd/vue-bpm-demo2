@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import startView from '@/components/custom-properties-panel/parts/startView.vue'
-import taskView from '@/components/custom-properties-panel/parts/taskView.vue'
+import startView from '@/components/propertiesPanel/parts/startView.vue'
+import taskView from '@/components/propertiesPanel/parts/taskView.vue'
 export default {
   name: 'PropertiesView',
   components: {startView,taskView},

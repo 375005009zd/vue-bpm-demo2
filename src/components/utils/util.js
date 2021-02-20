@@ -1,7 +1,7 @@
 // 一开始就有label标签的元素类型
 const hasLabelElements = ['bpmn:StartEvent', 'bpmn:EndEvent']
 
-//自定义元素的配置
+//自定义元素渲染配置
 const customConfig = {
   'bpmn:StartEvent': {
       'field': 'start',
@@ -21,7 +21,7 @@ const customConfig = {
 
 }
 
-//自定义元素的样式
+//自定义工具栏配置
 const customShapeAction = [
   {
     type: 'create.start-event',
