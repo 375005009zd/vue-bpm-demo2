@@ -26,20 +26,6 @@ export default {
     return {
       selectedElements: [], //选择的当前元素集合
       element: null, //当前点击的元素
-      eventTypes: [
-        { label: '默认', value: '' },
-        { label: 'MessageEventDefinition', value: 'bpmn:MessageEventDefinition' },
-        { label: 'TimerEventDefinition', value: 'bpmn:TimerEventDefinition' },
-        { label: 'ConditionalEventDefinition', value: 'bpmn:ConditionalEventDefinition' }
-      ],
-      eventType: '',
-      taskTypes: [
-        { label: 'Task', value: 'bpmn:Task' },
-        { label: 'ServiceTask', value: 'bpmn:ServiceTask' },
-        { label: 'SendTask', value: 'bpmn:SendTask' },
-        { label: 'UserTask', value: 'bpmn:UserTask' }
-      ],
-      taskType: ''
     }
   },
   created() {

@@ -31,31 +31,11 @@ export default class CustomRenderer extends BaseRenderer {
   }
 
   canRender(element) {
-
-    // only render tasks and events (ignore labels)
-    return isAny(element, [ 'bpmn:Task', 'bpmn:Event' ]) && !element.labelTarget;
+   // ignore labels
+   return !element.labelTarget;
   }
 
   drawShape(parentNode, element) {
-    // const shape = this.bpmnRenderer.drawShape(parentNode, element);
-
-    // if (is(element, 'bpmn:Task')) {
-    //   const rect = drawRect(parentNode, 100, 80, TASK_BORDER_RADIUS, '#52B415');
-
-    //   prependTo(rect, parentNode);
-
-    //   svgRemove(shape);
-
-    //   return shape;
-    // }
-
-    // const rect = drawRect(parentNode, 30, 20, TASK_BORDER_RADIUS, '#cc0000');
-
-    // svgAttr(rect, {
-    //   transform: 'translate(-20, -10)'
-    // });
-
-    // return shape;
     const paletteEntries = this.paletteEntries
     //通过type找到对应的配置
     const shape = find(paletteEntries,(entry)=>{
@@ -71,9 +51,9 @@ export default class CustomRenderer extends BaseRenderer {
   }
 
   getShapePath(shape) {
-    if (is(shape, 'bpmn:Task')) {
-      return getRoundRectPath(shape, TASK_BORDER_RADIUS);
-    }
+    // if (is(shape, 'bpmn:Task')) {
+    //   return getRoundRectPath(shape, TASK_BORDER_RADIUS);
+    // }
 
     return this.bpmnRenderer.getShapePath(shape);
   }

@@ -60,7 +60,7 @@ export default class CustomContextPad {
     }
 
     return {
-      'append.low-task': {
+      'create.low-task': {
         group: 'model',
         className: 'bpmn-icon-task red',
         title: translate('Append Task with low suitability score'),

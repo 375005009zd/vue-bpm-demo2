@@ -57,43 +57,36 @@ function createAction(type, group, className, title, imageUrl,drawShapeFn,option
 }
 
 function drawShape(parentNode, element ,bpmnRenderer,imageUrl) {
-    const shape = bpmnRenderer.drawShape(parentNode, element);
-    const suitable = element.businessObject.suitable
-    let color = '#52B415'
-    if (suitable) {
-        if (suitable > 50) {
-          color = 'green'
-        }
-        if (suitable === 50) {
-          color = 'yellow'
-        }
-        if (suitable < 50) {
-          color = 'red'
-        }
-      }
 	    const { type } = element
-	    const { attr } = customConfig[type]
-      const height = attr.height || 100
-      const width = attr.width || 100
-      element.width = width
-      element.height = height
-      const rect = drawRect(parentNode, width, height, TASK_BORDER_RADIUS, color,imageUrl);
-
-      prependTo(rect, parentNode);
-
-      svgRemove(shape);
-
+       if (customConfig[type]) { 
+        const { attr } = customConfig[type]
+        const height = attr.height || 100
+        const width = attr.width || 100
+        element.width = width
+        element.height = height
+        const customIcon = drawRect(parentNode,attr,imageUrl);
+       // 判断是否有name属性来决定是否要渲染出label
+       if (!hasLabelElements.includes(type) && element.businessObject.name) {
+           const text = svgCreate('text', {
+               x: attr.x,
+               y: attr.y + attr.height + 20,
+               "font-size": "14",
+               "fill": "#000"
+           })
+           text.innerHTML = element.businessObject.name
+           svgAppend(parentNode, text)
+       }
+       return customIcon
+     }
+     const shape = bpmnRenderer.drawShape(parentNode, element);
       return shape;
   }
 
 
 // copied from https://github.com/bpmn-io/bpmn-js/blob/master/lib/draw/BpmnRenderer.js
-function drawRect(parentNode, width, height, borderRadius, strokeColor,imageUrl) {
+function drawRect(parentNode, attr,imageUrl) {
   var customIcon = svgCreate('image',{
-    x: 0,
-    y: 0,
-    width: width,
-    height: height,
+     ...attr,
     href: imageUrl
 })
 
