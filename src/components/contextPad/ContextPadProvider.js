@@ -406,27 +406,27 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
   //   });
   // }
 
-  // // delete element entry, only show if allowed by rules
-  // var deleteAllowed = rules.allowed('elements.delete', { elements: [ element ] });
+  // delete element entry, only show if allowed by rules
+  var deleteAllowed = rules.allowed('elements.delete', { elements: [ element ] });
 
-  // if (isArray(deleteAllowed)) {
+  if (isArray(deleteAllowed)) {
 
-  //   // was the element returned as a deletion candidate?
-  //   deleteAllowed = deleteAllowed[0] === element;
-  // }
+    // was the element returned as a deletion candidate?
+    deleteAllowed = deleteAllowed[0] === element;
+  }
 
-  // if (deleteAllowed) {
-  //   assign(actions, {
-  //     'delete': {
-  //       group: 'edit',
-  //       className: 'bpmn-icon-trash',
-  //       title: translate('Remove'),
-  //       action: {
-  //         click: removeElement
-  //       }
-  //     }
-  //   });
-  // }
+  if (deleteAllowed) {
+    assign(actions, {
+      'delete': {
+        group: 'edit',
+        className: 'bpmn-icon-trash',
+        title: translate('Remove'),
+        action: {
+          click: removeElement
+        }
+      }
+    });
+  }
 
   return actions;
 };
