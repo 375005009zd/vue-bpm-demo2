@@ -7,12 +7,15 @@
       <taskView v-else-if="element.type=='bpmn:Task'" :modeler="modeler" :element="element"></taskView>
     </div>
     <button @click="printXML">打印xml</button>
+    <button @click="createDynamicElement">动态创建task</button>
+    <button style="margin-top:10px" @click="drawDynamicElement">在画布动态生成task</button>
   </div>
 </template>
 
 <script>
 import startView from '@/components/propertiesPanel/parts/startView.vue'
 import taskView from '@/components/propertiesPanel/parts/taskView.vue'
+
 export default {
   name: 'PropertiesView',
   components: {startView,taskView},
@@ -56,6 +59,34 @@ export default {
       modeler.saveXML({ format: true }, function (err, xml) {
            console.log(xml)
        });
+       //流程图json数据
+       let definitions = modeler.get('canvas').getRootElement().businessObject.$parent;
+       console.log(definitions);
+    },
+    //动态创建元素
+    createDynamicElement() {
+      if(!this.element) {
+        return
+      }
+      //在某个选中元素后面添加一个元素
+      let elementFactory = this.modeler.get('elementFactory')
+      let create = this.modeler.get('create')
+      var shape = elementFactory.createShape(Object.assign({ type: 'bpmn:EndEvent' }));
+      create.start(event, shape, {
+        source: this.element
+      });
+    },
+    //动态在画布绘制元素
+    drawDynamicElement() {
+      if(!this.element) {
+        return
+      }
+      let elementFactory = this.modeler.get('elementFactory')
+      let injector = this.modeler.get('injector')
+      let autoPlace = injector.get('autoPlace', false);
+      var shape = elementFactory.createShape(Object.assign({ type: 'bpmn:EndEvent' }));
+
+      autoPlace.append(this.element, shape);
     }
   }
 }
