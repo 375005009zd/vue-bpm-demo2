@@ -7,6 +7,7 @@
       <taskView v-else-if="element.type=='bpmn:Task'" :modeler="modeler" :element="element"></taskView>
     </div>
     <button @click="printXML">打印xml</button>
+    <button @click="printJSON">打印JSON</button>
     <button @click="createDynamicElement">动态创建task</button>
     <button style="margin-top:10px" @click="drawDynamicElement">在画布动态生成task</button>
   </div>
@@ -59,9 +60,11 @@ export default {
       modeler.saveXML({ format: true }, function (err, xml) {
            console.log(xml)
        });
-       //流程图json数据
-       let definitions = modeler.get('canvas').getRootElement().businessObject.$parent;
-       console.log(definitions);
+    },
+    printJSON() {
+      //流程图json数据
+      let definitions = modeler.get('canvas').getRootElement().businessObject.$parent;
+      console.log(definitions);
     },
     //动态创建元素
     createDynamicElement() {

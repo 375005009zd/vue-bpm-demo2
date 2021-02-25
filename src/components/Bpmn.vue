@@ -25,9 +25,6 @@ import customRenderer from './renderer'
 //绘制自定义元素
 import customContextPad from './contextPad'
 //右侧自定义属性栏
-// // 原有的 properties-panel 这个框
-import propertiesPanelModule from 'bpmn-js-properties-panel'
-
 import PropertiesView from './propertiesPanel/PropertiesView'
 
 export default {
@@ -44,7 +41,6 @@ export default {
     mounted() {
         // 获取到属性ref为“canvas”的dom节点
         const canvas = this.$refs.canvas
-        const panelContainer = this.$refs.panel
         //去掉默认工具栏
         const modules = BpmnModeler.prototype._modules
         const index = modules.findIndex(it=>it.paletteProvider)
@@ -52,10 +48,6 @@ export default {
         //建模
         this.bpmnModeler = new BpmnModeler({
           container: canvas,
-          //添加控制板
-          propertiesPanel: {
-                parent: panelContainer
-          },
           paletteEntries,
           additionalModules: [
             customPalette,

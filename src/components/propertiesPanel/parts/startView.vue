@@ -16,7 +16,7 @@
                </el-form-item>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane label="身份认证" name="third">身份认证</el-tab-pane>
+        <el-tab-pane  label="身份认证" name="third">身份认证</el-tab-pane>
       </el-tabs>
   </div>
 </template>
